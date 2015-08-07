@@ -6,15 +6,22 @@ from time import sleep
 
 
 PORT = 5000
+DEBUG = True
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder='static'
+)
 
 
 @app.route('/')
 def index():
     '''Entry point'''
-    data = {}
-    return render_template('base.html', **data)
+    data = {
+        'DEBUG': DEBUG,
+        'title': "Nice app"
+    }
+    return render_template('index.html', **data)
 
 if __name__ == '__main__':
     def show():
@@ -23,4 +30,7 @@ if __name__ == '__main__':
         print("Opening browser at {url}".format(url=url))
         webbrowser.open_new(url)
     start_new_thread(show, tuple())
-    app.run(debug=True, port=PORT)
+    app.run(
+        debug=DEBUG,
+        port=PORT,
+    )
