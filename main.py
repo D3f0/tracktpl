@@ -3,7 +3,7 @@ from flask import Flask, render_template
 import webbrowser
 from thread import start_new_thread
 from time import sleep
-
+from copy import copy
 
 PORT = 5000
 DEBUG = True
@@ -12,6 +12,12 @@ app = Flask(
     __name__,
     static_folder='static'
 )
+
+BASIC_CONTEXT = {
+    'DEBUG': DEBUG,
+    'title': "Nice app",
+    'livejs': True,
+}
 
 
 @app.route('/')
@@ -22,6 +28,13 @@ def index():
         'title': "Nice app"
     }
     return render_template('index.html', **data)
+
+
+@app.route('/charts/')
+def charts():
+    data = copy(BASIC_CONTEXT)
+
+    return render_template('charts.html', **data)
 
 if __name__ == '__main__':
     def show():
